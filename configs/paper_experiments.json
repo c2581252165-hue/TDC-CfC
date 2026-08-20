@@ -1,0 +1,147 @@
+{
+  "task": {
+    "history_months": 12,
+    "forecast_horizon_months": 1,
+    "history_bands": ["B2", "B3", "B4", "B5", "B6", "B7", "B8", "B8A", "B11", "B12"],
+    "target_bands": ["B2", "B3", "B4", "B8", "B11", "B12"],
+    "fixed_sites": 9596
+  },
+  "splits": {
+    "train": "2022-01/2023-12",
+    "validation": "2024-01/2024-12",
+    "refit": "2022-01/2024-12",
+    "test": "2025-01/2026-05"
+  },
+  "training": {
+    "selection_seeds": [438344685, 293280205, 353421717],
+    "factorial_seeds": [438344685, 293280205, 353421717, 391556334, 91194474],
+    "optimizer": "AdamW",
+    "learning_rate": 0.0003,
+    "weight_decay": 0.0001,
+    "batch_size": 1024,
+    "num_workers": 4,
+    "maximum_epochs": 60,
+    "early_stopping": false,
+    "mixed_precision": true,
+    "selection_metric": "validation macro RMSE",
+    "best_validation_epochs": {
+      "B08_GRU_COMMON": {
+        "438344685": 19,
+        "293280205": 19,
+        "353421717": 32
+      },
+      "C20_SITS_CAPACITY_219K": {
+        "438344685": 7,
+        "293280205": 7,
+        "353421717": 7
+      },
+      "C21_SITS_CAPACITY_242K": {
+        "438344685": 21,
+        "293280205": 5,
+        "353421717": 6
+      },
+      "C22_CFC_MMRNN_CAPACITY_211K": {
+        "438344685": 14,
+        "293280205": 14,
+        "353421717": 9
+      },
+      "C23_CFC_MMRNN_CAPACITY_247K": {
+        "438344685": 19,
+        "293280205": 11,
+        "353421717": 19
+      },
+      "H00_UNIFORM_TIMEMIX_CFC_211K": {
+        "438344685": 25,
+        "293280205": 11,
+        "353421717": 9
+      },
+      "H01_HSR_TIMEMIX_CFC_211K": {
+        "438344685": 25,
+        "293280205": 11,
+        "353421717": 25
+      },
+      "H02_RD_TIMEMIX_CFC_211K": {
+        "438344685": 13,
+        "293280205": 11,
+        "353421717": 27
+      },
+      "H03_HSR_RD_TIMEMIX_CFC_211K": {
+        "438344685": 25,
+        "293280205": 11,
+        "353421717": 14
+      }
+    },
+    "final_refit_epochs": {
+      "C20_SITS_CAPACITY_219K": 7,
+      "C21_SITS_CAPACITY_242K": 6,
+      "C22_CFC_MMRNN_CAPACITY_211K": 14,
+      "C23_CFC_MMRNN_CAPACITY_247K": 19,
+      "H00_UNIFORM_TIMEMIX_CFC_211K": 11,
+      "H01_HSR_TIMEMIX_CFC_211K": 25,
+      "H02_RD_TIMEMIX_CFC_211K": 13,
+      "H03_HSR_RD_TIMEMIX_CFC_211K": 14
+    },
+    "schedule": "5% linear warm-up followed by cosine decay on the fixed 60-epoch timeline",
+    "warmup_start_factor": 0.1,
+    "minimum_learning_rate_ratio": 0.01,
+    "adamw_betas": [0.9, 0.999],
+    "adamw_epsilon": 1e-8,
+    "adamw_amsgrad": false,
+    "gradient_clip_norm": 1.0,
+    "loss": "equal-band standardized Huber loss with delta=1",
+    "auxiliary_losses": "none for all reported paper models"
+  },
+  "reported_environment": {
+    "python": "3.12.3",
+    "numpy": "2.3.2",
+    "pandas": "2.3.3",
+    "pyarrow": "25.0.0",
+    "scikit_learn": "1.9.0",
+    "pyyaml": "6.0.2",
+    "pytorch": "2.8.0+cu128",
+    "cuda": "12.8",
+    "gpu": "NVIDIA GeForce RTX 4090"
+  },
+  "frozen_training_lineage": {
+    "source_bundle_sha256": "D7E3FD7B5EBE8DC3489A6FB5FFDB95BEFD94A7F70CD26676651F9E129DC49464",
+    "data_contract_sha256": "3AADB880B4B274807254F27C7741FA5D4037F0015432FD814E58837B8DA88F99",
+    "model_source_sha256": "811B1F49FBC4280319985A8A16C3727E791D5B2B23553F81A1061854D425C78A",
+    "training_core_sha256": "522D9BCF4E14DEE4FE2383375C4F702D6251E4CE877E976C3DA10FDAC921AEE0",
+    "training_entry_sha256": "8DAADE091869BB7204C11DE6CFA0674559D94681D81F736459DBFB891C6C6EAF"
+  },
+  "models": {
+    "B08_GRU_COMMON": 19910,
+    "C20_SITS_CAPACITY_219K": 218582,
+    "C21_SITS_CAPACITY_242K": 241926,
+    "C22_CFC_MMRNN_CAPACITY_211K": 210582,
+    "C23_CFC_MMRNN_CAPACITY_247K": 246674,
+    "H00_UNIFORM_TIMEMIX_CFC_211K": 210421,
+    "H01_HSR_TIMEMIX_CFC_211K": 210587,
+    "H02_RD_TIMEMIX_CFC_211K": 211160,
+    "H03_HSR_RD_TIMEMIX_CFC_211K": 211326,
+    "TDC_HISTORY_6": 211326,
+    "TDC_HISTORY_9": 211326,
+    "TDC_TARGET_PHASE_OFF": 211326,
+    "TDC_EXPLICIT_MISSINGNESS_OFF": 211326,
+    "TDC_TARGET6_HISTORY": 211326,
+    "TDC_GRU_212K": 212718,
+    "TDC_INDEPENDENT6_TOTAL_MATCH": 210348,
+    "TDC_INDEPENDENT6_WIDTH_MATCH": 1264896
+  },
+  "frozen_history_interventions": {
+    "previous_year": "remove history position t-11",
+    "recent_horizons": [1, 2, 3, 4, 5],
+    "shuffle_seeds": [20260727, 20260728, 20260729, 20260730, 20260731],
+    "tdc_fixed_permutation": [7, 0, 10, 3, 5, 1, 11, 8, 2, 9, 4, 6],
+    "additional_missingness_percent": [10, 20, 30, 40, 50],
+    "cross_model_missingness_hash_seed": 20260816,
+    "tdc_missingness_hash_seed": 20260727
+  },
+  "statistical_analysis": {
+    "bootstrap_repetitions": 50000,
+    "temporal_block_lengths": [2, 3],
+    "spatial_blocks": "4x4 coordinate-quantile blocks",
+    "support_threshold_percent": [20, 30, 40, 50],
+    "leave_one_month_out": true
+  }
+}
