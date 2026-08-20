@@ -21,6 +21,7 @@ scripts/data/      Sentinel-2 acquisition and panel-construction scripts
 scripts/           training, evaluation, and analysis entry points
 src/fpmf/          models, data processing, metrics, and interventions
 tests/             model, causality, and release-contract tests
+examples/          checkpoint-free synthetic input and reference output
 ```
 
 ## Requirements
@@ -57,6 +58,17 @@ Verify the model and repository contracts without training:
 pytest -q
 python scripts/audit_repository.py
 ```
+
+Run an independent CPU forward pass without real data or a checkpoint:
+
+```bash
+python scripts/run_synthetic_example.py
+```
+
+This example uses only artificial standardized values and a deterministic
+untrained model state. It verifies software and input contracts, not the
+scientific performance reported in the paper. See
+[`docs/SYNTHETIC_EXAMPLE.md`](docs/SYNTHETIC_EXAMPLE.md).
 
 ## Training and evaluation
 

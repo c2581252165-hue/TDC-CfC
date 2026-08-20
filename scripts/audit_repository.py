@@ -60,11 +60,16 @@ def main() -> None:
         "scripts/train_hgb.py",
         "scripts/data/export_fixed_point_multiband_s2_v2_1.py",
         "scripts/materialize.py",
+        "scripts/create_synthetic_example.py",
+        "scripts/run_synthetic_example.py",
         "src/fpmf/models/paper_variants.py",
         "docs/PAPER_CODE_MAP.md",
+        "docs/SYNTHETIC_EXAMPLE.md",
         "configs/paper_experiments.json",
         "data/points/point_registry.csv",
         "data/temporal_split_v1.csv",
+        "examples/synthetic_input.npz",
+        "examples/expected_untrained_predictions.csv",
     }
     for relative in sorted(required):
         if not (ROOT / relative).exists():
