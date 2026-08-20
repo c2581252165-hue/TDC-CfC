@@ -4,6 +4,8 @@ Code, experiment configurations, and fixed-site coordinates for the
 paper **“Attributing Next-Month Sentinel-2 Reflectance Predictability Beyond
 Climatology and Persistence: Information Sources and TDC-CfC.”**
 
+**Authors:** Xing Cao, Qianjian Xu, and Yuqing Pan.
+
 TDC-CfC jointly predicts Sentinel-2 B2, B3, B4, B8, B11, and B12 at 9,596
 fixed sites from the preceding 12 complete calendar months. The forecasting
 protocol is strictly past-only, and previous predictions are never reused as
@@ -90,7 +92,8 @@ models on a user-supplied NPZ batch that follows the released input contract.
 ## Citation
 
 If you use this code or fixed-site registry, please cite the
-accompanying paper.
+accompanying paper. Complete citation information will be added after
+publication.
 
 ## License
 
