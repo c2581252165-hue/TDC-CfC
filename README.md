@@ -47,6 +47,29 @@ outputs are not redistributed. The panel can be reconstructed from public
 Sentinel-2 imagery using the scripts in `scripts/data/` and a user-provided
 Google Earth Engine project.
 
+### Study-boundary source
+
+The original 500 m sampling frame used the Huanghua City administrative
+boundary (`adcode` **130983**) obtained from the official
+[Alibaba Cloud DataV.GeoAtlas area selector](https://datav.aliyun.com/portal/school/atlas/area_selector)
+(`areas_v3`; underlying map data from AMap Open Platform; data version updated
+May 2021). Readers can download the corresponding provider-hosted GeoJSON
+directly from:
+
+<https://geo.datav.aliyun.com/areas_v3/bound/130983.json>
+
+Accessed 20 August 2026. The downloaded file has SHA-256
+`F7EFF392ADE7A2B2048C553B3C3ADC6268FFF03C6372EE981C55CE67E6D4D1DD`.
+Its geometry was verified to be topologically identical to the boundary used
+for the frozen Earth Engine asset (identical bounds and zero symmetric
+difference). DataV states that this map version is provided for learning and
+exchange; the boundary is therefore not redistributed here. For exact
+frame reconstruction, preserve the downloaded coordinate sequence without
+simplification, buffering, datum conversion, or substitution. See
+[`docs/DATA_ACCESS.md`](docs/DATA_ACCESS.md) for the coordinate-system caveat
+and upload routes. Exact replication should preferably use the released fixed
+sites rather than regenerate them from a boundary.
+
 See [`docs/DATA_ACCESS.md`](docs/DATA_ACCESS.md) for site upload, Sentinel-2
 acquisition, boundary, and source-data information.
 
