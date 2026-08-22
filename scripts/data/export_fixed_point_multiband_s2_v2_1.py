@@ -83,8 +83,8 @@ def planned_indicators() -> list[Indicator]:
         Indicator("grid_y", "metadata", "500 m grid row index", "metadata_only", "integer"),
         Indicator("easting_m", "metadata", "EPSG:32650 point-centre easting", "metadata_only", "metre"),
         Indicator("northing_m", "metadata", "EPSG:32650 point-centre northing", "metadata_only", "metre"),
-        Indicator("longitude", "metadata", "longitude for linkage/audit only", "metadata_only", "degree"),
-        Indicator("latitude", "metadata", "latitude for linkage/audit only", "metadata_only", "degree"),
+        Indicator("longitude", "metadata", "longitude for site linkage", "metadata_only", "degree"),
+        Indicator("latitude", "metadata", "latitude for site linkage", "metadata_only", "degree"),
         Indicator("year", "metadata", "observation year", "metadata_only", "year"),
         Indicator("month", "metadata", "observation month", "metadata_only", "month"),
         Indicator("year_month", "metadata", "observation calendar month", "metadata_only", "YYYY-MM"),
@@ -115,16 +115,16 @@ def planned_indicators() -> list[Indicator]:
         Indicator("S2_last_valid_time_utc_ms", "s2_quality", "last clear acquisition time in month", "quality_sidecar", "UTC milliseconds"),
         Indicator("S2_median_valid_time_utc_ms", "s2_quality", "median clear acquisition time in month", "quality_sidecar", "UTC milliseconds"),
         Indicator("S2_valid_acquisition_span_days", "s2_quality", "last minus first clear acquisition time", "quality_sidecar", "day"),
-        Indicator("S2_overlap_acquisition_count", "s2_quality", "clear acquisitions formed from more than one valid granule at the point", "audit_only", "count"),
-        Indicator("S2_overlap_max_abs_difference", "s2_quality", "maximum within-acquisition cross-granule absolute reflectance range", "audit_only", "reflectance"),
+        Indicator("S2_overlap_acquisition_count", "s2_quality", "clear acquisitions formed from more than one valid granule at the point", "quality_metadata", "count"),
+        Indicator("S2_overlap_max_abs_difference", "s2_quality", "maximum within-acquisition cross-granule absolute reflectance range", "quality_metadata", "reflectance"),
 
 
         Indicator("S2_days_since_last_valid", "s2_quality", "days from month end to most recent clear B4 acquisition in 12-month lookback", "history_quality", "day"),
         Indicator("S2_last_valid_left_censored", "s2_quality", "one when no valid acquisition exists in the finite lookback", "quality_sidecar", "binary"),
-        Indicator("S2_granule_count", "s2_manifest", "AOI-filtered SR granules before acquisition merge", "audit_only", "count"),
-        Indicator("S2_acquisition_count", "s2_manifest", "unique DATATAKE_IDENTIFIER acquisitions", "audit_only", "count"),
-        Indicator("S2_cloud_matched_granule_count", "s2_manifest", "SR granules exactly matched to cloud probability", "audit_only", "count"),
-        Indicator("S2_cloud_unmatched_granule_count", "s2_manifest", "SR granules missing an exact cloud match", "audit_only", "count"),
+        Indicator("S2_granule_count", "s2_manifest", "AOI-filtered SR granules before acquisition merge", "acquisition_metadata", "count"),
+        Indicator("S2_acquisition_count", "s2_manifest", "unique DATATAKE_IDENTIFIER acquisitions", "acquisition_metadata", "count"),
+        Indicator("S2_cloud_matched_granule_count", "s2_manifest", "SR granules exactly matched to cloud probability", "acquisition_metadata", "count"),
+        Indicator("S2_cloud_unmatched_granule_count", "s2_manifest", "SR granules missing an exact cloud match", "acquisition_metadata", "count"),
     ])
     return rows
 

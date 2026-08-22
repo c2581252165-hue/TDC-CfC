@@ -27,9 +27,8 @@ To save generated predictions without modifying the repository:
 python scripts/run_synthetic_example.py --output /path/to/synthetic_predictions.csv
 ```
 
-This example is a software smoke test only. Its untrained standardized outputs
-are not reflectance estimates, model weights, experimental results, or evidence
-of predictive performance. Recreate the committed example files with:
+The untrained standardized outputs provide deterministic software-reference
+values. Recreate the committed example files with:
 
 ```bash
 python scripts/create_synthetic_example.py

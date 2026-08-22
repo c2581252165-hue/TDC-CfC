@@ -1,8 +1,4 @@
-"""Run TDC-CfC on a fully synthetic, checkpoint-free input batch.
-
-This smoke example verifies the released 12-to-1 input contract and model
-forward path. It does not reproduce trained predictions or paper metrics.
-"""
+"""Run TDC-CfC on a fully synthetic, checkpoint-free input batch."""
 
 from __future__ import annotations
 
@@ -139,7 +135,6 @@ def main() -> None:
 
     print("PASS: checkpoint-free synthetic TDC-CfC forward example")
     print(f"samples={len(sample_index)}, output_shape={prediction.shape}, max_error={maximum_error:.3e}")
-    print("This smoke example is synthetic and is not a paper-performance result.")
 
 
 if __name__ == "__main__":

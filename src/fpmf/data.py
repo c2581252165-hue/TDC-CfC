@@ -203,7 +203,7 @@ def materialize_training_store(
         cursor = stop
 
     if cursor != sample_count:
-        raise RuntimeError(f"Internal sample-count mismatch: {cursor} != {sample_count}")
+        raise RuntimeError(f"Sample-count mismatch: {cursor} != {sample_count}")
     for array in (x_values_mm, x_mask_mm, x_age_mm, history_month_mm, y_mm, point_index_mm, target_month_mm):
         array.flush()
     del array  # release the final Windows memmap handle before directory publication
@@ -306,7 +306,7 @@ class TrainingStore:
     def indices(self, splits: str | Iterable[str], *, allow_test: bool = False) -> np.ndarray:
         requested = {splits} if isinstance(splits, str) else set(splits)
         if "test" in requested and not allow_test:
-            raise PermissionError("Test split is sealed. Explicit allow_test=True is required after final configuration freeze.")
+            raise PermissionError("Test split access requires allow_test=True")
         unknown = requested - {"train", "validation", "test"}
         if unknown:
             raise ValueError(f"Unknown splits: {sorted(unknown)}")

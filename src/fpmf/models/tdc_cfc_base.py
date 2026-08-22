@@ -38,13 +38,12 @@ class HSRRDTimeMixCfC(nn.Module):
 
     HSR adds group- and wavelength-conditioned residual routes around a global
     route. RD injects a deterministic, strictly causal deviation correction in
-    observation space before the recurrent update. The reference is not a
-    supervised learned prior, so diagnostics deliberately call it a deviation
-    rather than an innovation.
+    observation space before the recurrent update. The correction is expressed
+    as a deviation from the causal reference.
 
     Added branch output layers are zero initialized while their outer shrink
-    magnitudes start small and non-zero. This preserves the exact H00 prediction
-    at initialization without creating the double-zero dead branch in FM-085.
+    magnitudes start small and non-zero, preserving the H00 initialization
+    while keeping residual branches trainable.
     """
 
     scientific_name = "Hierarchically Shrunk Reliability-Deviation TimeMix CfC-mmRNN"
@@ -70,8 +69,7 @@ class HSRRDTimeMixCfC(nn.Module):
             raise ValueError("all HSR/RD widths must be positive")
         self.hsr_enabled = bool(hsr_enabled)
         self.rd_enabled = bool(rd_enabled)
-        # Inference-only verification switch.  It is deliberately not a
-        # parameter or buffer, so it does not alter checkpoint identity.
+        # Post-training intervention selector; it is not a model parameter or buffer.
         self.inference_intervention = "none"
 
         # Common modules are constructed before optional branches. Under the

@@ -492,8 +492,7 @@ def refit_neural_model(
     """Reinitialize and refit a selected model on 2022--2024.
 
     The optimizer follows the original 60-epoch learning-rate trajectory and
-    stops after the validation-selected epoch count.  This distinction is
-    essential: a 14-epoch refit is not a newly compressed 14-epoch schedule.
+    stops after the validation-selected epoch count.
     """
     if selected_epochs < 1 or selected_epochs > config.schedule_total_epochs:
         raise ValueError("selected_epochs must lie within the fixed schedule")

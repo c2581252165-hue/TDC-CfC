@@ -124,7 +124,7 @@ class IndependentSixTDC(nn.Module):
     ) -> IdentifiableHSRRDTimeMixCfC:
         """Reproduce the exact constructor order used by the paper runs.
 
-        The frozen training implementation first instantiated the full H03
+        The paper training implementation first instantiated the full H03
         path and then replaced its shared six-band recurrent/readout block by
         a target-specific block.  Constructing the narrow path directly is
         mathematically equivalent after loading a checkpoint, but consumes a

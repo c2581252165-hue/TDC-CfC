@@ -1,8 +1,7 @@
 """Ordered recurrent backbone used by TDC-CfC.
 
-This file contains only the mixed-memory CfC/GRU trajectory and the shared
-six-band readout used by the paper.  Historical search families were
-deliberately excluded from the public release.
+This file contains the mixed-memory CfC/GRU trajectory and the shared
+six-band readout used by the paper.
 """
 
 from __future__ import annotations

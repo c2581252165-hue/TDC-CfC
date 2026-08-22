@@ -1,4 +1,4 @@
-"""Frozen forecasting model implementations."""
+"""Forecasting model implementations used in the paper."""
 
 from .factory import build_model, list_model_ids
 

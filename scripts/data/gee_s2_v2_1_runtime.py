@@ -34,7 +34,7 @@ def selected_months(single_month: str | None) -> list[tuple[int, int]]:
         return months
     selected = cfg.month_range(single_month, single_month)
     if selected[0] not in months:
-        raise ValueError(f"month {single_month} is outside frozen range")
+        raise ValueError(f"month {single_month} is outside the configured range")
     return selected
 
 

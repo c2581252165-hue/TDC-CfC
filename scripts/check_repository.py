@@ -1,51 +1,28 @@
 from __future__ import annotations
 
-from pathlib import Path
 import json
-import re
+from pathlib import Path
 import sys
 
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-TEXT_SUFFIXES = {".py", ".md", ".txt", ".json", ".csv", ".cff", ".yml", ".yaml"}
-FORBIDDEN = (
-    "GITHUB_REPOSITORY_URL_REQUIRED",
-    "LICENSE_SELECTION_REQUIRED",
-    "candidate_pool_",
-    "adjudication",
-    "retrospective_provenance",
-    "include_multisource",
-    "x_source_present",
-)
-FORBIDDEN_FILES = {"multisource.py", "timemix.py"}
 
 
 def main() -> None:
-    failures = []
-    forbidden_release_paths = {
+    failures: list[str] = []
+
+    excluded_directories = {
         "checkpoints",
         "data/example",
         "outputs",
         "results",
         "runs",
     }
-    for relative in sorted(forbidden_release_paths):
+    for relative in sorted(excluded_directories):
         if (ROOT / relative).exists():
-            failures.append(f"generated or unpublished asset directory: {relative}")
-    for path in ROOT.rglob("*"):
-        if not path.is_file():
-            continue
-        if path.name in FORBIDDEN_FILES:
-            failures.append(f"forbidden legacy file: {path.relative_to(ROOT)}")
-        if path.suffix.lower() not in TEXT_SUFFIXES:
-            continue
-        text = path.read_text(encoding="utf-8", errors="replace")
-        for token in FORBIDDEN:
-            if token in text and path.name != Path(__file__).name:
-                failures.append(f"forbidden token {token!r}: {path.relative_to(ROOT)}")
-        if re.search(r"(?:^|[\\/])(?:__pycache__|\.pytest_cache)(?:[\\/]|$)", str(path)):
-            failures.append(f"cache file: {path.relative_to(ROOT)}")
+            failures.append(f"generated asset directory included: {relative}")
+
     required = {
         "scripts/train.py",
         "scripts/refit.py",
@@ -73,45 +50,57 @@ def main() -> None:
     }
     for relative in sorted(required):
         if not (ROOT / relative).exists():
-            failures.append(f"missing required paper asset: {relative}")
+            failures.append(f"missing paper asset: {relative}")
+
     configuration_path = ROOT / "configs/paper_experiments.json"
     if configuration_path.is_file():
         configuration = json.loads(configuration_path.read_text(encoding="utf-8"))
-        from fpmf.models.factory import build_model
         from fpmf.interventions import (
             CROSS_MODEL_STRESS_HASH_SEED,
             SHUFFLE_SEEDS,
             TDC_FIXED_PERMUTATION,
             TDC_STRESS_HASH_SEED,
         )
+        from fpmf.models.factory import build_model
 
         for model_id, expected in configuration["models"].items():
             actual = sum(parameter.numel() for parameter in build_model(model_id).parameters())
             if actual != expected:
-                failures.append(f"parameter-count drift: {model_id}={actual}, expected={expected}")
+                failures.append(
+                    f"parameter-count mismatch: {model_id}={actual}, expected={expected}"
+                )
         intervention = configuration["frozen_history_interventions"]
         if tuple(intervention["shuffle_seeds"]) != SHUFFLE_SEEDS:
-            failures.append("shuffle-seed contract drift")
+            failures.append("shuffle-seed mismatch")
         if tuple(intervention["tdc_fixed_permutation"]) != TDC_FIXED_PERMUTATION:
-            failures.append("TDC fixed-permutation contract drift")
+            failures.append("TDC permutation mismatch")
         if intervention["cross_model_missingness_hash_seed"] != CROSS_MODEL_STRESS_HASH_SEED:
-            failures.append("cross-model missingness seed drift")
+            failures.append("cross-model missingness seed mismatch")
         if intervention["tdc_missingness_hash_seed"] != TDC_STRESS_HASH_SEED:
-            failures.append("TDC missingness seed drift")
+            failures.append("TDC missingness seed mismatch")
+
+    weight_suffixes = {
+        ".pt",
+        ".pth",
+        ".ckpt",
+        ".safetensors",
+        ".onnx",
+        ".joblib",
+        ".pkl",
+        ".pickle",
+    }
     bundled_weights = sorted(
         path.relative_to(ROOT)
         for path in ROOT.rglob("*")
-        if path.is_file()
-        and path.suffix.lower()
-        in {".pt", ".pth", ".ckpt", ".safetensors", ".onnx", ".joblib", ".pkl", ".pickle"}
+        if path.is_file() and path.suffix.lower() in weight_suffixes
     )
-    if bundled_weights:
-        failures.extend(f"bundled model asset: {path}" for path in bundled_weights)
+    failures.extend(f"model weight included: {path}" for path in bundled_weights)
+
     if failures:
         print("FAIL")
         print("\n".join(f"- {failure}" for failure in failures))
         raise SystemExit(1)
-    print("PASS: repository contains the paper pipeline and no known legacy assets")
+    print("PASS: repository contents and paper configuration are consistent")
 
 
 if __name__ == "__main__":

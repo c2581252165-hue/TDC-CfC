@@ -36,7 +36,7 @@ def predict(model, loader, preprocessor, device):
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Frozen H03 RD direction and zeroing checks")
+    parser = argparse.ArgumentParser(description="H03 RD direction and zeroing analyses")
     parser.add_argument("--store", type=Path, required=True)
     parser.add_argument("--run-dir", type=Path, required=True)
     parser.add_argument("--seed", type=int, required=True)

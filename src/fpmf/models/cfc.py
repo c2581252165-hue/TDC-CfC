@@ -5,11 +5,7 @@ from torch import nn
 
 
 class ClosedFormCfCCell(nn.Module):
-    """Equation-level closed-form CfC-style cell with frozen monthly dt=1.
-
-    This is intentionally described as a CfC-based recurrent cell, not as
-    evidence of a continuous-time advantage on a regular monthly grid.
-    """
+    """Equation-level closed-form CfC-style cell with monthly ``dt=1``."""
 
     def __init__(self, input_dim: int, hidden_dim: int, backbone_dim: int | None = None):
         super().__init__()
@@ -26,7 +22,7 @@ class ClosedFormCfCCell(nn.Module):
 
     def forward(self, x: torch.Tensor, hidden: torch.Tensor, *, dt: float = 1.0) -> torch.Tensor:
         if float(dt) != 1.0:
-            raise ValueError("Monthly CfC backend is frozen to dt=1; elapsed-time claims require another contract")
+            raise ValueError("Monthly CfC updates require dt=1")
         joined = self.backbone(torch.cat([x, hidden], dim=-1))
         ff1 = torch.tanh(self.ff1(joined))
         ff2 = torch.tanh(self.ff2(joined))

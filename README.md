@@ -20,7 +20,7 @@ docs/              data-access notes and paper-to-code map
 scripts/data/      Sentinel-2 acquisition and panel-construction scripts
 scripts/           training, evaluation, and analysis entry points
 src/fpmf/          models, data processing, metrics, and interventions
-tests/             model, causality, and release-contract tests
+tests/             model, causality, and reproducibility tests
 examples/          checkpoint-free synthetic input and reference output
 ```
 
@@ -61,7 +61,7 @@ directly from:
 Accessed 20 August 2026. The downloaded file has SHA-256
 `F7EFF392ADE7A2B2048C553B3C3ADC6268FFF03C6372EE981C55CE67E6D4D1DD`.
 Its geometry was verified to be topologically identical to the boundary used
-for the frozen Earth Engine asset (identical bounds and zero symmetric
+for the study's Earth Engine asset (identical bounds and zero symmetric
 difference). DataV states that this map version is provided for learning and
 exchange; the boundary is therefore not redistributed here. For exact
 frame reconstruction, preserve the downloaded coordinate sequence without
@@ -79,7 +79,7 @@ Verify the model and repository contracts without training:
 
 ```bash
 pytest -q
-python scripts/audit_repository.py
+python scripts/check_repository.py
 ```
 
 Run an independent CPU forward pass without real data or a checkpoint:
@@ -88,9 +88,8 @@ Run an independent CPU forward pass without real data or a checkpoint:
 python scripts/run_synthetic_example.py
 ```
 
-This example uses only artificial standardized values and a deterministic
-untrained model state. It verifies software and input contracts, not the
-scientific performance reported in the paper. See
+This example uses artificial standardized values and a deterministic
+untrained model state to validate the software path and tensor shapes. See
 [`docs/SYNTHETIC_EXAMPLE.md`](docs/SYNTHETIC_EXAMPLE.md).
 
 ## Training and evaluation

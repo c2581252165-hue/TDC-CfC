@@ -153,7 +153,7 @@ def predict_hgb(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Cross-model or TDC-CfC frozen-weight historical interventions"
+        description="Cross-model or TDC-CfC post-training historical interventions"
     )
     parser.add_argument("--store", type=Path, required=True)
     parser.add_argument("--run", action="append", type=parse_run, required=True)

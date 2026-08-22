@@ -20,9 +20,9 @@
 | Leave-one-month-out and support thresholds | prediction arrays | `scripts/analyze_robustness.py` |
 | Derived indices, month-band gains, condition strata | prediction arrays and metadata | `scripts/analyze_results.py` |
 
-Representation variants are separate trainable model builders. Frozen input
-interventions are used only for analyses that explicitly evaluate dependence
-of an already trained predictor on supplied history.
+Representation variants are separate trainable model builders. Post-training
+input interventions evaluate how an already trained predictor depends on the
+supplied history.
 
 The released contracts preserve paper randomization exactly: cross-model
 temporal permutations use seeds 20260727--20260731; final TDC-CfC temporal

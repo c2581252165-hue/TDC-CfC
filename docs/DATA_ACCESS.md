@@ -13,7 +13,7 @@ public Sentinel-2 collections.
 
 The files in `examples/` are fully synthetic. They contain no Sentinel-2
 reflectance, target observations, administrative boundary, or geographic
-coordinate and are included only to exercise the public software contract.
+coordinates. They demonstrate the input format and forward-pass workflow.
 
 ## Exact-site reconstruction
 
@@ -35,7 +35,7 @@ DataV.GeoAtlas area selector:
 - reference SHA-256: `F7EFF392ADE7A2B2048C553B3C3ADC6268FFF03C6372EE981C55CE67E6D4D1DD`
 
 The provider-hosted GeoJSON was compared with the boundary used for the
-frozen Earth Engine asset. Their bounds are identical
+study's Earth Engine asset. Their bounds are identical
 (`[117.085117, 38.154614, 117.958012, 38.643864]`) and the symmetric-difference
 area is zero. The repository does not redistribute this boundary because the
 DataV selector states that the map data are for learning and exchange and does
@@ -46,12 +46,11 @@ not provide a general redistribution licence.
 DataV states that `areas_v3` originates from AMap Open Platform. AMap's
 official documentation identifies its platform coordinates as GCJ-02, while
 the DataV selector documentation does not explicitly state whether its
-open-format export is transformed to another datum. The frozen study asset
-used the coordinate sequence supplied by the DataV GeoJSON. Therefore, exact
+open-format export is transformed to another datum. The study asset used the
+coordinate sequence supplied by the DataV GeoJSON. Therefore, exact
 frame reconstruction requires preserving those coordinate values as supplied;
 do not apply an additional datum conversion, simplification, buffer, or
-replacement boundary. This statement documents the frozen run and does not
-assert a CRS transformation that DataV has not documented.
+replacement boundary.
 
 Upload the downloaded GeoJSON to a user-owned Earth Engine asset and pass its
 identifier with `--region-asset`, or use it locally with
