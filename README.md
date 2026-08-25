@@ -15,7 +15,10 @@ inputs to later forecasts.
 
 ```text
 configs/           paper experiment and training configuration
-data/points/       fixed-site coordinate registry
+data/panel/        complete 9,596-site by 65-month training panel
+data/static/       site coordinates and land-cover stratification metadata
+data/points/       fixed-site coordinate registry for Earth Engine upload
+data/              temporal split and data documentation
 docs/              data-access notes and paper-to-code map
 scripts/data/      Sentinel-2 acquisition and panel-construction scripts
 scripts/           training, evaluation, and analysis entry points
@@ -41,11 +44,22 @@ analysis protocols are recorded in
 
 ## Data
 
-The repository includes the exact 9,596-site registry and temporal split
-summary. The complete derived monthly reflectance panel and paper-result
-outputs are not redistributed. The panel can be reconstructed from public
-Sentinel-2 imagery using the scripts in `scripts/data/` and a user-provided
-Google Earth Engine project.
+The repository includes the complete model-ready source data used to construct
+the paper's strict 12-to-1 samples:
+
+- `data/panel/training_monthly_panel.csv.gz`: 623,740 rows covering 9,596
+  fixed sites and 65 calendar months from January 2021 to May 2026;
+- `data/static/fixed_site_static_metadata.csv`: coordinates and 2021 ESA
+  WorldCover fields used only for mapping and condition-stratified evaluation;
+- `data/temporal_split_v1.csv`: target-month training, validation, and test
+  assignments and target-valid sample counts;
+- `data/points/point_registry.csv`: exact fixed-site registry for replication
+  and Earth Engine upload.
+
+The monthly panel contains the ten Sentinel-2 history bands and the two
+quality fields required by the released sample materializer. Coordinates and
+WorldCover attributes are not model inputs. Paper-result outputs and model
+weights are not distributed.
 
 ### Study-boundary source
 
@@ -94,7 +108,16 @@ untrained model state to validate the software path and tensor shapes. See
 
 ## Training and evaluation
 
-After reconstructing and materializing the monthly panel, the main workflow is:
+Materialize the released CSV panel into the immutable 12-to-1 training store:
+
+```bash
+python scripts/materialize.py \
+  --panel data/panel/training_monthly_panel.csv.gz \
+  --split data/temporal_split_v1.csv \
+  --output data/store
+```
+
+The main workflow is then:
 
 ```bash
 python scripts/baselines.py --store data/store --split validation --output outputs/baselines

@@ -2,18 +2,24 @@
 
 ## What is released
 
+- `data/panel/training_monthly_panel.csv.gz`: complete 623,740-row monthly
+  panel used by the released materialization code (9,596 sites by 65 months).
+- `data/static/fixed_site_static_metadata.csv`: fixed-site coordinates and the
+  2021 ESA WorldCover fields used for maps and land-cover stratification.
 - `data/points/point_registry.csv` and `.parquet`: exact 9,596 fixed sites used in the study, including projected and geographic coordinates.
 - `data/temporal_split_v1.csv`: released target-month split labels and target-valid sample counts.
 - `scripts/data/`: acquisition, export merging, and split-generation code.
 
-The complete derived point-by-month reflectance panel, example reflectance
-values, model weights, and paper-result outputs are not distributed. The
-release instead provides the information needed to reconstruct the panel from
-public Sentinel-2 collections.
+The released panel contains the ten Sentinel-2 history bands,
+`S2_target_common_valid_acquisition_count`, and
+`S2_overlap_max_abs_difference`. These are the fields consumed by
+`scripts/materialize.py`. Model weights and paper-result outputs are not
+distributed.
 
 The files in `examples/` are fully synthetic. They contain no Sentinel-2
 reflectance, target observations, administrative boundary, or geographic
 coordinates. They demonstrate the input format and forward-pass workflow.
+The real monthly panel is provided separately under `data/panel/`.
 
 ## Exact-site reconstruction
 
@@ -63,8 +69,11 @@ replication, upload `data/points/point_registry.csv` and use `--point-asset`.
 Sentinel-2 images remain governed by their original Copernicus terms and Google
 Earth Engine access conditions. Copernicus permits reuse and redistribution of
 Sentinel data subject to its attribution requirements; an Earth Engine export
-does not replace those source-provider terms. This repository does not
-redistribute source imagery or the derived monthly reflectance panel.
+does not replace those source-provider terms. This repository redistributes
+only the derived fixed-site monthly values needed to reproduce the reported
+experiments; it does not redistribute source imagery. Users should retain the
+Sentinel attribution and observe the original provider terms when reusing or
+redistributing the derived values.
 
 Uploading a boundary to a user-owned Earth Engine asset does not by itself
 establish redistribution rights for the underlying boundary file. The study
